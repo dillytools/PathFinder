@@ -1,0 +1,6 @@
+<Bindings>
+    <!-- Key Bindings > AddOns > PathFinder. Names come from AddPoint.lua (BINDING_NAME_...). -->
+    <Binding name="PATHFINDER_ADDPOINT" header="PATHFINDER" category="ADDONS">
+        SlashCmdList.PATHFINDER("addpoint")
+    </Binding>
+</Bindings>

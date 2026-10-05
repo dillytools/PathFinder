@@ -22,3 +22,4 @@ Minimap.lua
 WorldView.lua
 MinimapButton.lua
 Options.lua
+AddPoint.lua

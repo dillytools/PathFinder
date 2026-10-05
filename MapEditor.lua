@@ -937,6 +937,19 @@ ns.RegisterCommand("draw", "- open the world map in path drawing mode", function
     SetEditing(true)
 end)
 
+-- AddPoint.lua: when the map being drawn (or kept unsaved) is m, a point added from the game
+-- world goes into the drawing, linked to the selected point, and becomes the selection.
+function ns.AddPointToDrawing(m, c, wx, wy)
+    if not (editMap and editSource and editSource.id == m.id) then return false end
+    ns.Graph.Use(editMap)
+    BeginEdit()
+    selected = ns.Graph.AddWorld(c, wx, wy, selected or ns.Graph.Nearest(c, wx, wy))
+    RefreshMapPickButton()
+    ns.RedrawMap()
+    ns.Print(format("point added to \"%s\" in drawing mode (Save map to keep it)", editMap.name))
+    return true
+end
+
 ns.RegisterCommand("here", "[dest] - add a point where you stand to the map being drawn (linked to the selected point), or put the destination there", function(arg)
     local _, continentID, wx, wy = ns.GetPlayerPose()
     if not wx then ns.Print("your position isn't available here") return end
