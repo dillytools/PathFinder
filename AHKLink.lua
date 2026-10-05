@@ -11,7 +11,7 @@ local _, ns = ...
 -- a route without hearing from it shows where to find it.
 ---------------------------------------------------------------------------
 
-local SIGNAL_KEY = "CTRL-ALT-SHIFT-F9"      -- PathFinder.ahk HeartbeatKey must match
+local SIGNAL_KEY = "ALT-CTRL-SHIFT-F9"      -- PathFinder.ahk HeartbeatKey must match (the game wants modifiers in ALT-CTRL-SHIFT order)
 local ALIVE_TIMEOUT = 8                      -- seconds without a report before it counts as not running
 local CHECK_DELAY = 3                        -- seconds after starting a route to check
 -- Where PathFinder.ahk is, shown in the popup. Addons can't find out where the game is installed
@@ -31,6 +31,7 @@ function ns.AHKAlive()
 end
 
 local signal = CreateFrame("Button", "PathFinderAHKSignal", UIParent)
+signal:RegisterForClicks("AnyUp", "AnyDown")   -- a key binding clicks on press or release, depending on settings
 signal:SetScript("OnClick", function() seen = GetTime() end)
 
 local bindOwner = CreateFrame("Frame")
