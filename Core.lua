@@ -12,6 +12,7 @@ local DEFAULTS = {
         worldMarker = true,     -- the next point marked in the 3D world
         stopOnMoveKeys = true,  -- your movement keys stop the route (Escape always does)
         closeMap = true,        -- close the world map when travel starts
+        extraZoom = true,       -- zoom levels past Blizzard's maximum on the world map (MapZoom.lua)
     },
     -- finish = { c, x, y }: the destination marker; routes always start where you stand
 }

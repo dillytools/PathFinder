@@ -19,7 +19,7 @@ While some WoW path finding solutions rely on complex C++ libraries and external
 
 
 ## Use
-The **minimap button** (drag it around the minimap's edge) opens a menu: Start travel / Stop, Go to the nearest town, Go to the quest objective, Draw navigation maps, whether `PathFinder.ahk` is running (and how to start it if not; the game can't start programs), and Options. **Options > AddOns > PathFinder** has checkboxes for the minimap route line, the travel panel, the world marker, closing the world map on travel, stopping on movement keys, and the minimap button, plus shortcuts to draw, check the script, import and export.
+The **minimap button** (drag it around the minimap's edge) opens a menu: Start travel / Stop, Go to the nearest town, Go to the quest objective, Draw navigation maps, whether `PathFinder.ahk` is running (and how to start it if not; the game can't start programs), and Options. **Options > AddOns > PathFinder** has checkboxes for extra world map zoom (three steps past the normal maximum, for a closer look at points), the minimap route line, the travel panel, the world marker, closing the world map on travel, stopping on movement keys, and the minimap button, plus shortcuts to draw, check the script, import and export.
 
 1. Make sure `AHK/PathFinder.ahk` is running (see Install).
 2. **Draw a map.** Open the world map and left-click the PathFinder icon (top-right of the map, just left of Questie's icon), or type `/pf draw`. Other map icons hide while drawing (your arrow stays).
@@ -65,6 +65,7 @@ Points are stored in world coordinates, so a map can cross zone borders. Positio
 | `Options.lua` | Options > AddOns > PathFinder (`PathFinderDB.options`, `.minimap.shown`), `/pf options`. |
 | `AddPoint.lua` | Adding a point where you stand to a chosen map (keybind, `/pf addpoint`). |
 | `Bindings.xml` | The "Add navigation point here" key binding. |
+| `MapZoom.lua` | Three extra zoom steps past the world map's maximum (option "Zoom in further on the world map"). |
 | `WorldView.lua` | While travelling, moves Blizzard's tracked map pin to the next navigation point (zone map, or the continent for points past its edge) so it shows in the 3D world; restores your own pin afterwards. |
 
 ## Slash

@@ -35,6 +35,10 @@ local SECTIONS = {
           set = function(on) ns.db.options.stopOnMoveKeys = on end },
     } },
     { title = "Interface", rows = {
+        { label = "Zoom in further on the world map",
+          tooltip = "Adds three more zoom steps past the map's normal maximum, for a closer look at navigation points. The map art gets softer that close. Takes effect the next time a map is shown.",
+          get = function() return ns.db.options.extraZoom end,
+          set = function(on) ns.db.options.extraZoom = on end },
         { label = "Show the minimap button",
           get = function() return ns.db.minimap.shown end,
           set = function(on)

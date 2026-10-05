@@ -13,6 +13,7 @@ Maps.lua
 Maps\Community.lua
 UI.lua
 MapEditor.lua
+MapZoom.lua
 AHKLink.lua
 Navigator.lua
 Objective.lua
