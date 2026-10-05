@@ -10,7 +10,7 @@ Walks you from where you stand to:
 
 The addon uses **navigation map assets**: a named set of linked points, marked Safe or Dangerous, drawn on each zone's map. The addon comes with some default maps you can use to start walking immediately, or you can create your own maps for local use or push them to the official repo and I will review them for inclusion. As navigation maps are their own distinct asset, they can be easily shared. 
 
-While some WoW path finding solutions rely on complex C++ libraries and external geometry-reading tools, this addon relies solely on WoW's own Lua and tried and tested AHK. It is intended primarily for casual use cases and not highly specific navigational needs.
+While some WoW path finding solutions rely on complex C++ libraries and external geometry-reading tools, this addon relies solely on WoW's own Lua and tried and tested AHK. It is intended primarily for casual, ease-of-use cases and not highly specific navigational needs.
 
 ## Install
 1. Copy this `PathFinder` folder into `World of Warcraft\<game version>\Interface\AddOns\`.
