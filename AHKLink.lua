@@ -14,9 +14,15 @@ local _, ns = ...
 local SIGNAL_KEY = "CTRL-ALT-SHIFT-F9"      -- PathFinder.ahk HeartbeatKey must match
 local ALIVE_TIMEOUT = 8                      -- seconds without a report before it counts as not running
 local CHECK_DELAY = 3                        -- seconds after starting a route to check
--- Where PathFinder.ahk is, shown in the popup. Addons can't read disk paths, so it's written here:
--- this is the default install for the Forever beta; change it if the game is installed elsewhere.
-local SCRIPT_PATH = "C:\\Program Files (x86)\\World of Warcraft\\_classic_beta_\\Interface\\AddOns\\PathFinder\\AHK"
+-- Where PathFinder.ahk is, shown in the popup. Addons can't find out where the game is installed
+-- (no API gives a disk path), so this is the usual install for the Forever beta, and
+-- /pf ahkpath <folder> sets your own once (saved). The script's spot inside the addon,
+-- Interface\AddOns\PathFinder\AHK, is the same on every machine.
+local DEFAULT_PATH = "C:\\Program Files (x86)\\World of Warcraft\\_classic_beta_\\Interface\\AddOns\\PathFinder\\AHK"
+
+local function ScriptPath()
+    return ns.db and ns.db.ahkFolder or DEFAULT_PATH
+end
 
 local seen                  -- GetTime() of the last report
 
@@ -45,7 +51,7 @@ StaticPopupDialogs["PATHFINDER_START_AHK"] = {
         .. "Install AutoHotkey v2, then right-click |cffffd100PathFinder.ahk|r and choose |cffffd100Run script|r. It's in this folder:\n\n%s\n\nLeave it running; it idles between routes.",
     button1 = "Copy path",
     button2 = OKAY,
-    OnAccept = function() ns.ShowTextBox("PathFinder.ahk folder  (Ctrl+C to copy)", SCRIPT_PATH) end,
+    OnAccept = function() ns.ShowTextBox("PathFinder.ahk folder  (Ctrl+C to copy)", ScriptPath()) end,
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
@@ -56,15 +62,21 @@ StaticPopupDialogs["PATHFINDER_START_AHK"] = {
 function ns.CheckAHK()
     C_Timer.After(CHECK_DELAY, function()
         if ns.Navigator.IsActive() and not ns.AHKAlive() then
-            StaticPopup_Show("PATHFINDER_START_AHK", SCRIPT_PATH)
+            StaticPopup_Show("PATHFINDER_START_AHK", ScriptPath())
         end
     end)
 end
+
+ns.RegisterCommand("ahkpath", "<folder> - where PathFinder.ahk is on this PC, for the popup (empty: back to the default)", function(arg)
+    arg = strtrim(arg or ""):gsub("[\\/]+$", "")
+    ns.db.ahkFolder = arg ~= "" and arg or nil
+    ns.Print("PathFinder.ahk folder:", ScriptPath())
+end)
 
 ns.RegisterCommand("ahk", "- is PathFinder.ahk running?", function()
     if ns.AHKAlive() then
         ns.Print("PathFinder.ahk is running")
     else
-        StaticPopup_Show("PATHFINDER_START_AHK", SCRIPT_PATH)
+        StaticPopup_Show("PATHFINDER_START_AHK", ScriptPath())
     end
 end)

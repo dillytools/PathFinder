@@ -9,7 +9,7 @@ Lua does all the steering (position, facing, route, stuck checks). `AHK/PathFind
 ## Install
 1. Copy this `PathFinder` folder into `World of Warcraft\<game version>\Interface\AddOns\`.
 2. Install [AutoHotkey v2](https://www.autohotkey.com/).
-3. Right-click `Interface\AddOns\PathFinder\AHK\PathFinder.ahk` and choose **Run script**. Leave it running (tray icon "PathFinder"); it idles until a route starts. If a route starts without it, the game says where it is; `/pf ahk` checks. It tells the addon it's running by pressing Ctrl+Alt+Shift+F9 every few seconds while WoW has focus, so don't bind that key. Ctrl+F10 exits it. If you edit it, run it again (a running AHK script doesn't reload its file).
+3. Right-click `Interface\AddOns\PathFinder\AHK\PathFinder.ahk` and choose **Run script**. Leave it running (tray icon "PathFinder"); it idles until a route starts. If a route starts without it, the game says where it is (the default Forever beta install folder, or your own after `/pf ahkpath <folder>`); `/pf ahk` checks. It tells the addon it's running by pressing Ctrl+Alt+Shift+F9 every few seconds while WoW has focus, so don't bind that key. Ctrl+F10 exits it. If you edit it, run it again (a running AHK script doesn't reload its file).
 
 The game is best in Windowed or Windowed (Fullscreen) mode with default gamma, brightness and contrast, and no HDR, sharpening or FSR, so the dot's colors read exactly.
 
@@ -56,7 +56,7 @@ Points are stored in world coordinates, so a map can cross zone borders. Positio
 | `WorldView.lua` | While travelling, moves Blizzard's tracked map pin to the next navigation point (zone map, or the continent for points past its edge) so it shows in the 3D world; restores your own pin afterwards. |
 
 ## Slash
-`/pf` or `/pathfinder`: `pos`, `ahk`, `draw`, `here [dest]`, `go`, `town`, `objective`, `stop`, `maps`, `export`, `import`, `delete`. `/goto town`, `/goto destination`, `/goto objective`.
+`/pf` or `/pathfinder`: `pos`, `ahk`, `ahkpath <folder>`, `draw`, `here [dest]`, `go`, `town`, `objective`, `stop`, `maps`, `export`, `import`, `delete`. `/goto town`, `/goto destination`, `/goto objective`.
 
 ## Blizzard ToS
 Automated movement driven by game state is what Blizzard bans for, even with you watching. Keep testing short and attended, ideally on a beta or throwaway account.
