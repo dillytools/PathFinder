@@ -92,7 +92,7 @@ end
 -- Save dialog: ns.ShowSaveDialog(map, zoneName, onSave(name, kind), onDelete)
 ---------------------------------------------------------------------------
 
-local save = NewWindow("PathFinderSave", 340, 190)
+local save = NewWindow("PathFinderSave", 340, 210)
 save.title:SetText("Save navigation map")
 
 -- Shows the name and type set in the drawing box; they're edited there, not here.
@@ -124,8 +124,9 @@ StaticPopupDialogs["PATHFINDER_DELETE_DRAWING"] = {
 -- The name and type come from the drawing box; a map without a name uses its zone's.
 function ns.ShowSaveDialog(m, zoneName, onSave, onDelete)
     local name = m.name and m.name ~= "" and m.name or zoneName or ""
-    summary:SetText(format("|cffffd100Name|r     %s\n|cffffd100Type|r      %s\n|cffffd100Zone|r      %s",
-        name ~= "" and name or "|cffff4040no name yet|r", ns.Maps.KIND_NAMES[m.kind] or "Safe", zoneName or "unknown"))
+    summary:SetText(format("|cffffd100Name|r     %s\n|cffffd100Type|r      %s\n|cffffd100Path|r      %s\n|cffffd100Zone|r      %s",
+        name ~= "" and name or "|cffff4040no name yet|r", ns.Maps.KIND_NAMES[m.kind] or "Safe",
+        m.linear and "Exact" or "Curved", zoneName or "unknown"))
     saveButton:SetEnabled(name ~= "")
     saveButton:SetScript("OnClick", function()
         save:Hide()

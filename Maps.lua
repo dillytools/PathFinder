@@ -3,14 +3,16 @@ local _, ns = ...
 ---------------------------------------------------------------------------
 -- Navigation maps: named sets of points and links, each Safe or Dangerous,
 -- with the zone it was drawn for. A map:
---   { id, name, kind = "safe" | "fast", zone = uiMapID, zoneName, nodes, nextId, builtin }
+--   { id, name, kind = "safe" | "fast", zone = uiMapID, zoneName, nodes, nextId, builtin, linear }
+-- linear: walk to each point exactly, in straight lines (no rounded corners).
 -- Two kinds of installed map:
 --   yours      drawn in game, saved in PathFinderDB.maps (id "u:<n>")
 --   built-in   shipped with the addon in Maps\*.lua files, from the community
 --              (id "b:<n>"); editing one saves your own copy
 --
 -- Maps travel as text (export/import, and the built-in files):
---   PF1~name~kind~zoneID~zoneName~nodes
+--   PF1~name~kind~zoneID~zoneName~nodes~path
+-- path is "curved" or "linear" (missing = curved, as older text has no path field).
 -- nodes are ";"-separated "id,continent,x,y,town,link:link:...". No "|"
 -- anywhere, since the game's text boxes treat it as an escape character.
 ---------------------------------------------------------------------------
@@ -37,16 +39,16 @@ function Maps.Encode(m)
     end
     sort(parts, function(a, b) return tonumber(a:match("^%d+")) < tonumber(b:match("^%d+")) end)
     return table.concat({ "PF1", Clean(m.name), m.kind == "fast" and "fast" or "safe", tostring(m.zone or 0),
-        Clean(m.zoneName), table.concat(parts, ";") }, "~")
+        Clean(m.zoneName), table.concat(parts, ";"), m.linear and "linear" or "curved" }, "~")
 end
 
 -- A map from text, or nil and why not.
 function Maps.Decode(text)
     text = strtrim(tostring(text or ""))
-    local version, name, kind, zone, zoneName, nodeText = strsplit("~", text)
+    local version, name, kind, zone, zoneName, nodeText, path = strsplit("~", text)
     if version ~= "PF1" or not nodeText then return nil, "that isn't a PathFinder map" end
     local m = { name = name ~= "" and name or "Unnamed map", kind = kind == "fast" and "fast" or "safe",
-        zone = tonumber(zone), zoneName = zoneName, nodes = {}, nextId = 1 }
+        zone = tonumber(zone), zoneName = zoneName, nodes = {}, nextId = 1, linear = path == "linear" or nil }
     for entry in nodeText:gmatch("[^;]+") do
         local id, c, x, y, town, links = strsplit(",", entry)
         id, c, x, y = tonumber(id), tonumber(c), tonumber(x), tonumber(y)
