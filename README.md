@@ -1,10 +1,13 @@
 # PathFinder
 
-Walks you from where you stand to a destination marker you place on the world map, the nearest town (`/goto town`) or your quest objective (`/goto objective`), along a **navigation map**: a named set of linked points, either Safe or Dangerous, drawn for a zone. It goes to the point nearest you, follows linked points to the one nearest the goal, then on to the goal itself, running straight between points and rounding each corner with a quadratic Bezier curve that shortcuts it. If the goal is nearer than any point, it walks straight there. It steers at a spot about 7 yards ahead, so it turns less often and may stray slightly off the line.
+Walks you from where you stand to:
+• A destination marker you place on the world map
+• The nearest town (`/goto town`) or 
+• Your current quest objective (`/goto objective`)
 
-Navigation maps are assets: draw your own, import ones others share, or use the built-in ones contributed to the addon.
+The addon uses **navigation map assets**: a named set of linked points, marked Safe or Dangerous, drawn on each zone's map. The addon comes with some default maps you can use to start walking immediately, or you can create your own maps for local use or push them to the official repo and I will review them for inclusion. As navigation maps are their own distinct asset, they can be easily shared. 
 
-Lua does all the steering (position, facing, route, stuck checks). `AHK/PathFinder.ahk`, shipped in this addon's folder, only holds W, turns with mouse look (right button held for the whole route, mouse eased sideways), and taps Space, as one color-coded dot tells it. PathFinder needs no other addon.
+While some WoW path finding solutions rely on complex C++ libraries and external geometry-reading tools, this addon relies solely on WoW's own Lua and tried and tested AHK. It is intended primarily for casual use cases and not highly specific navigational needs.
 
 ## Install
 1. Copy this `PathFinder` folder into `World of Warcraft\<game version>\Interface\AddOns\`.
