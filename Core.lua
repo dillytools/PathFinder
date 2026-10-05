@@ -5,6 +5,14 @@ local DEFAULTS = {
     maps = {},      -- your navigation maps by id (Maps.lua)
     nextMapId = 1,
     hud = {},       -- point = where the on-screen travel panel was dragged (HUD.lua)
+    minimap = { shown = true, angle = 215 },   -- the minimap button (MinimapButton.lua)
+    options = {     -- Options > AddOns > PathFinder (Options.lua)
+        minimapRoute = true,    -- the route line on the minimap while travelling
+        hud = true,             -- the travel panel (map, time left)
+        worldMarker = true,     -- the next point marked in the 3D world
+        stopOnMoveKeys = true,  -- your movement keys stop the route (Escape always does)
+        closeMap = true,        -- close the world map when travel starts
+    },
     -- finish = { c, x, y }: the destination marker; routes always start where you stand
 }
 

@@ -59,7 +59,7 @@ frame:SetScript("OnUpdate", function(_, elapsed)
     since = since + elapsed
     if since < TICK then return end
     since = 0
-    local marker = ns.Navigator.NextMarker()
+    local marker = ns.db.options.worldMarker and ns.Navigator.NextMarker()
     if marker then
         -- The game may clear the pin itself when you get close; put it back until the route moves on.
         if marker ~= current or not C_Map.GetUserWaypoint() then Show(marker) end

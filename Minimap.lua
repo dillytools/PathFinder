@@ -112,5 +112,5 @@ frame:SetScript("OnUpdate", function(_, elapsed)
     sinceDraw = sinceDraw + elapsed
     if sinceDraw < TICK then return end
     sinceDraw = 0
-    if ns.Navigator.IsActive() then Draw() elseif lines[1] and lines[1]:IsShown() then HideLines(1) end
+    if ns.Navigator.IsActive() and ns.db.options.minimapRoute then Draw() elseif lines[1] and lines[1]:IsShown() then HideLines(1) end
 end)

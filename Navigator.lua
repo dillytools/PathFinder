@@ -177,7 +177,7 @@ local function Travel(navMap, goal, label, goalId)
     ns.RedrawMap()
     ns.RefreshMapButtons()
     -- Out of the way, so you can see where you're walking.
-    if WorldMapFrame and WorldMapFrame:IsShown() then ToggleWorldMap() end
+    if ns.db.options.closeMap and WorldMapFrame and WorldMapFrame:IsShown() then ToggleWorldMap() end
 end
 
 -- The zone you're in.
@@ -372,7 +372,9 @@ keyWatch:SetScript("OnKeyDown", function(_, key)
     local now = GetTime()
     if key == "W" and now < expectW then expectW = 0 return end
     if key == "SPACE" and now < expectSpace then expectSpace = 0 return end
-    if MovementKeys()[key] then Navigator.Stop("you took over (" .. key .. ")") end
+    if key == "ESCAPE" or (ns.db.options.stopOnMoveKeys and MovementKeys()[key]) then
+        Navigator.Stop("you took over (" .. key .. ")")
+    end
 end)
 
 ns.RegisterEvent("PLAYER_REGEN_DISABLED", function() Navigator.Stop("entered combat") end)

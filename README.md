@@ -14,6 +14,8 @@ Lua does all the steering (position, facing, route, stuck checks). `AHK/PathFind
 The game is best in Windowed or Windowed (Fullscreen) mode with default gamma, brightness and contrast, and no HDR, sharpening or FSR, so the dot's colors read exactly.
 
 ## Use
+The **minimap button** (drag it around the minimap's edge) opens a menu: Start travel / Stop, Go to the nearest town, Go to the quest objective, Draw navigation maps, whether `PathFinder.ahk` is running (and how to start it if not; the game can't start programs), and Options. **Options > AddOns > PathFinder** has checkboxes for the minimap route line, the travel panel, the world marker, closing the world map on travel, stopping on movement keys, and the minimap button, plus shortcuts to draw, check the script, import and export.
+
 1. Make sure `AHK/PathFinder.ahk` is running (see Install).
 2. **Draw a map.** Open the world map and left-click the PathFinder icon (top-right of the map, just left of Questie's icon), or type `/pf draw`. Other map icons hide while drawing (your arrow stays).
    - The bar: **Load map** (installed maps grouped by zone, your current zone first, plus **New map**; a built-in map becomes your own copy when saved), **Undo** (or Ctrl+Z; last 20 edits of this map, this session), **Clear map** (deletes the points on the open map, after asking; it can't be undone, so Undo greys out after it), **Save map** (shows the map's name, type and zone, not editable there; **Save** stores it with its zone (the zone most of its points are in, e.g. The Barrens) and you keep drawing on it; **Delete map** deletes it after confirming (a new drawing is just dropped; a built-in map can't be deleted); **Cancel** goes back to drawing). Undo, Clear map and Save map grey out when there's nothing to undo, clear or save (a map with no points can't be saved; delete an emptied saved map with `/pf delete`).
@@ -42,7 +44,7 @@ Points are stored in world coordinates, so a map can cross zone borders. Positio
 | `PathFinder.toc` | Addon manifest. |
 | `AHK/PathFinder.ahk` | The AutoHotkey v2 script that does the input: reads the command dot, holds W, mouse-look turning with eased speed, taps Space, heartbeat key. |
 | `AHKLink.lua` | Knowing whether `PathFinder.ahk` is running (its Ctrl+Alt+Shift+F9 heartbeat, override-bound to a hidden button), the "isn't running" popup with its location, `/pf ahk`. |
-| `Core.lua` | SavedVariables (`maps`, `nextMapId`, `finish`, `hud`), event bus, rounded-corner curves (`ns.QuadBezier`, `ns.CornerCuts`, `ns.RoundedPath`), `ns.Log`, map/world conversions, `ns.MapAxes` (north/west per map, so no world-axis assumption), `ns.GetPlayerPose()`, slash command registry, `/pf pos`. |
+| `Core.lua` | SavedVariables (`maps`, `nextMapId`, `finish`, `hud`, `minimap`, `options`), event bus, rounded-corner curves (`ns.QuadBezier`, `ns.CornerCuts`, `ns.RoundedPath`), `ns.Log`, map/world conversions, `ns.MapAxes` (north/west per map, so no world-axis assumption), `ns.GetPlayerPose()`, slash command registry, `/pf pos`. |
 | `Graph.lua` | Points and two-way links of the map chosen with `Graph.Use(map)`: add, remove (rejoins a chain), link/unlink, towns, count on a uiMap, nearest, Dijkstra distances and shortest path, 20-step undo. |
 | `Maps.lua` | Navigation map assets: your maps (SavedVariables) and built-in ones, text encode/decode, lists for a zone, the default (first Safe) map, save/delete, migration from the old single network. |
 | `Maps/Community.lua` | Built-in maps contributed by players, one `ns.AddMapString` line each. |
@@ -53,10 +55,12 @@ Points are stored in world coordinates, so a map can cross zone borders. Positio
 | `Share.lua` | `/pf export`, `/pf import`, `/pf delete`, `/pf maps`. |
 | `HUD.lua` | While travelling, the panel with the map's name and type, time left and yards left. |
 | `Minimap.lua` | While travelling, the rest of the route as a line on the minimap, clipped to its edge; handles rotating and square minimaps. |
+| `MinimapButton.lua` | The minimap button and its menu, `/pf minimap`. |
+| `Options.lua` | Options > AddOns > PathFinder (`PathFinderDB.options`, `.minimap.shown`), `/pf options`. |
 | `WorldView.lua` | While travelling, moves Blizzard's tracked map pin to the next navigation point (zone map, or the continent for points past its edge) so it shows in the 3D world; restores your own pin afterwards. |
 
 ## Slash
-`/pf` or `/pathfinder`: `pos`, `ahk`, `ahkpath <folder>`, `draw`, `here [dest]`, `go`, `town`, `objective`, `stop`, `maps`, `export`, `import`, `delete`. `/goto town`, `/goto destination`, `/goto objective`.
+`/pf` or `/pathfinder`: `options`, `minimap`, `pos`, `ahk`, `ahkpath <folder>`, `draw`, `here [dest]`, `go`, `town`, `objective`, `stop`, `maps`, `export`, `import`, `delete`. `/goto town`, `/goto destination`, `/goto objective`.
 
 ## Blizzard ToS
 Automated movement driven by game state is what Blizzard bans for, even with you watching. Keep testing short and attended, ideally on a beta or throwaway account.

@@ -65,7 +65,7 @@ driver:SetScript("OnUpdate", function(_, elapsed)
     if since < TICK then return end
     since = 0
     local navMap, yards = ns.Navigator.Status()
-    if not navMap then
+    if not navMap or not ns.db.options.hud then
         hud:Hide()
         speed = nil
         return
