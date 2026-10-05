@@ -15,9 +15,8 @@ While some WoW path finding solutions rely on complex C++ libraries and external
 ## Install
 1. Copy this `PathFinder` folder into `C:\Program Files (x86)\World of Warcraft\_classic_beta_\Interface\AddOns`.
 2. Install [AutoHotkey v2](https://www.autohotkey.com/).
-3. Right-click `Interface\AddOns\PathFinder\AHK\PathFinder.ahk` and choose **Run script**. Leave it running (tray icon "PathFinder"); it idles until a route starts. If a route starts without it, the game says where it is (the default Forever beta install folder, or your own after `/pf ahkpath <folder>`); `/pf ahk` checks. It tells the addon it's running by pressing Ctrl+Alt+Shift+F9 every few seconds while WoW has focus, so don't bind that key. Ctrl+F10 exits it. If you edit it, run it again (a running AHK script doesn't reload its file).
+3. Right-click `Interface\AddOns\PathFinder\AHK\PathFinder.ahk` and choose **Run script**. If you try to run the path finder without running the script it will prompt you with a directory where the script is likely located and you can run it there. Due to Blizzard's API limitations the addon is unable to run the script from the game, you must do it yourself.
 
-The game is best in Windowed or Windowed (Fullscreen) mode with default gamma, brightness and contrast, and no HDR, sharpening or FSR, so the dot's colors read exactly.
 
 ## Use
 The **minimap button** (drag it around the minimap's edge) opens a menu: Start travel / Stop, Go to the nearest town, Go to the quest objective, Draw navigation maps, whether `PathFinder.ahk` is running (and how to start it if not; the game can't start programs), and Options. **Options > AddOns > PathFinder** has checkboxes for the minimap route line, the travel panel, the world marker, closing the world map on travel, stopping on movement keys, and the minimap button, plus shortcuts to draw, check the script, import and export.
