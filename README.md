@@ -1,8 +1,11 @@
 # PathFinder
 
 Walks you from where you stand to:
+
 • A destination marker you place on the world map
+
 • The nearest town (`/goto town`) or 
+
 • Your current quest objective (`/goto objective`)
 
 The addon uses **navigation map assets**: a named set of linked points, marked Safe or Dangerous, drawn on each zone's map. The addon comes with some default maps you can use to start walking immediately, or you can create your own maps for local use or push them to the official repo and I will review them for inclusion. As navigation maps are their own distinct asset, they can be easily shared. 
