@@ -13,7 +13,7 @@ The addon uses **navigation map assets**: a named set of linked points, marked S
 While some WoW path finding solutions rely on complex C++ libraries and external geometry-reading tools, this addon relies solely on WoW's own Lua and tried and tested AHK. It is intended primarily for casual, ease-of-use cases and not highly specific navigational needs.
 
 ## Install
-1. Copy this `PathFinder` folder into `World of Warcraft\<game version>\Interface\AddOns\`.
+1. Copy this `PathFinder` folder into `C:\Program Files (x86)\World of Warcraft\_classic_beta_\Interface\AddOns`.
 2. Install [AutoHotkey v2](https://www.autohotkey.com/).
 3. Right-click `Interface\AddOns\PathFinder\AHK\PathFinder.ahk` and choose **Run script**. Leave it running (tray icon "PathFinder"); it idles until a route starts. If a route starts without it, the game says where it is (the default Forever beta install folder, or your own after `/pf ahkpath <folder>`); `/pf ahk` checks. It tells the addon it's running by pressing Ctrl+Alt+Shift+F9 every few seconds while WoW has focus, so don't bind that key. Ctrl+F10 exits it. If you edit it, run it again (a running AHK script doesn't reload its file).
 
