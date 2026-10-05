@@ -69,16 +69,9 @@ local function Circle(points)
     return cx, cy, r
 end
 
-function ns.GoObjective()
-    local questID = SelectedQuest()
-    if not questID then
-        ns.Print("select a quest first: click it in the quest tracker or quest log")
-        return
-    end
+local function GoObjectiveOn(navMap, questID)
     local _, c, px, py = ns.GetPlayerPose()
     if not px then ns.Print("your position isn't available here") return end
-    local navMap = ns.Navigator.DefaultMap()
-    if not navMap then return end
 
     local spawns = QuestieSpawns(questID, c)
     local cx, cy, r
@@ -110,6 +103,16 @@ function ns.GoObjective()
         return
     end
     ns.Navigator.Travel(navMap, spot, "objective")
+end
+
+-- Asks which navigation map to use (built-in maps first), then walks toward the selected quest's objective.
+function ns.GoObjective()
+    local questID = SelectedQuest()
+    if not questID then
+        ns.Print("select a quest first: click it in the quest tracker or quest log")
+        return
+    end
+    ns.Navigator.PickMap("Go to the quest objective using which map?", function(m) GoObjectiveOn(m, questID) end)
 end
 
 ns.RegisterCommand("objective", "- walk to the selected quest's objective (same as /goto objective)", function() ns.GoObjective() end)

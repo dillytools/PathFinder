@@ -185,37 +185,38 @@ local function PlayerZone()
     return C_Map.GetBestMapForUnit("player")
 end
 
--- The map /goto commands use: the first Safe map installed for your zone, else the first Dangerous
--- one. Says so and returns nil if there's none.
-local function DefaultMap()
-    local m = ns.Maps.Default(PlayerZone())
-    if not m then ns.Print(NO_PATHWAYS) end
-    return m
+-- Asks which navigation map to use: the maps installed for your zone, built-in ones first, then
+-- yours. Says so if there are none. onPick(map) runs with the choice.
+local function PickMap(title, onPick)
+    local maps = ns.Maps.ForZone(PlayerZone())
+    if #maps == 0 then ns.Print(NO_PATHWAYS) return end
+    local rows = {}
+    for _, builtinFirst in ipairs({ true, false }) do
+        for _, m in ipairs(maps) do
+            if (m.builtin and true or false) == builtinFirst then
+                tinsert(rows, { text = ns.Maps.Label(m) .. (m.builtin and "  |cff888888built-in|r" or ""),
+                    onClick = function() onPick(m) end })
+            end
+        end
+    end
+    ns.ShowPicker(title, rows)
 end
 
-Navigator.Travel, Navigator.DefaultMap, Navigator.NO_PATHWAYS = Travel, DefaultMap, NO_PATHWAYS
+Navigator.Travel, Navigator.PickMap, Navigator.NO_PATHWAYS = Travel, PickMap, NO_PATHWAYS
 
 function Navigator.RouteMapID() return active and routeMap and routeMap.id or nil end
 function Navigator.RouteMap() return active and routeMap or nil end
 
--- Start travel: pick one of the maps installed for your zone, then walk to the destination on it.
+-- Start travel: pick a navigation map, then walk to the destination on it.
 function Navigator.Start()
     if not ns.db.finish then ns.Print(NO_DESTINATION) return end
-    local maps = ns.Maps.ForZone(PlayerZone())
-    if #maps == 0 then ns.Print(NO_PATHWAYS) return end
-    local rows = {}
-    for _, m in ipairs(maps) do
-        tinsert(rows, { text = ns.Maps.Label(m), onClick = function() Travel(m, ns.db.finish, "destination") end })
-    end
-    ns.ShowPicker("Travel using which navigation map?", rows)
+    PickMap("Travel using which navigation map?", function(m) Travel(m, ns.db.finish, "destination") end)
 end
 
--- Walks to the nearest town (by walking distance along the links) on the default map.
-function Navigator.GoTown()
+-- Walks to the nearest town (by walking distance along the links) on a map you pick.
+local function GoTownOn(navMap)
     local _, c, px, py = ns.GetPlayerPose()
     if not px then ns.Print("your position isn't available here") return end
-    local navMap = DefaultMap()
-    if not navMap then return end
     local previous = ns.Graph.Use(navMap)
     local startId = ns.Graph.Nearest(c, px, py)
     local dist = startId and ns.Graph.Distances(startId) or {}
@@ -234,6 +235,9 @@ function Navigator.GoTown()
     Travel(navMap, { c = town.c, x = town.x, y = town.y }, "town", best)
 end
 
+function Navigator.GoTown()
+    PickMap("Go to the nearest town using which map?", GoTownOn)
+end
 -- For the on-screen panel: the map, and yards left along the route.
 function Navigator.Status()
     if not active then return nil end

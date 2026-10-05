@@ -119,7 +119,7 @@ function Maps.ForZone(mapID)
     return list
 end
 
--- The map commands like /goto town use: the first Safe map for the zone, else the first Dangerous one.
+-- The first Safe map for the zone, else the first Dangerous one (unused by the commands now: they ask).
 function Maps.Default(mapID)
     local list = Maps.ForZone(mapID)
     for _, m in ipairs(list) do
