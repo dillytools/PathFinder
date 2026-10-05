@@ -584,7 +584,15 @@ local function SaveOrDiscard(andThen, ask)
     local zoneName = info and info.name or editSource and editSource.zoneName
     ns.ShowSaveDialog(editMap, zoneName, function(name, kind)
         editMap.name, editMap.kind, editMap.zone, editMap.zoneName = name, kind, zone, zoneName
-        if editSource and not editSource.builtin then editMap.id = editSource.id else editMap.id = nil end
+        if editSource and editSource.builtin then
+            -- A built-in map saves as your copy of it: the existing one if you have it.
+            editMap.id, editMap.copyOf = nil, editSource.id
+            for _, mine in pairs(ns.db.maps) do
+                if mine.copyOf == editSource.id then editMap.id = mine.id end
+            end
+        else
+            editMap.id = editSource and editSource.id or nil
+        end
         local saved = ns.Maps.Save(editMap)
         ns.Print(format("saved \"%s\" (%s, %s)", saved.name, ns.Maps.KIND_NAMES[saved.kind], zoneName or "unknown zone"))
         editSource, editMap = saved, ns.DeepCopy(saved)

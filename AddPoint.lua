@@ -10,7 +10,8 @@ local _, ns = ...
 -- you, but it doesn't tell addons where a ping lands (only that one appeared
 -- and where it sits on screen), so the point goes where you are instead.
 --
--- Points added this way chain: each links to the one added before it on the
+-- A built-in map gets your own copy the first time (it's used from then on);
+-- points added this way chain: each links to the one added before it on the
 -- same map this session; the first links to the map's nearest point. If the
 -- map is open in drawing mode, the point is added there (save as usual).
 ---------------------------------------------------------------------------
@@ -26,6 +27,20 @@ local function AddTo(m, c, wx, wy)
     if ns.AddPointToDrawing and ns.AddPointToDrawing(m, c, wx, wy) then
         lastMapId = m.id
         return
+    end
+    -- A built-in map can't change; its points go into your own copy of it (made the first time).
+    if m.builtin then
+        local copy
+        for _, mine in pairs(ns.db.maps) do
+            if mine.copyOf == m.id then copy = mine break end
+        end
+        if not copy then
+            copy = ns.DeepCopy(m)
+            copy.copyOf = m.id
+            ns.Maps.Save(copy)
+            ns.Print(format("made your own copy of the built-in map \"%s\"", m.name))
+        end
+        m = copy
     end
     -- Straight into the saved map (not through Graph, so a drawing's undo history isn't touched).
     local linkTo = lastPoint[m.id] and m.nodes[lastPoint[m.id]] and m.nodes[lastPoint[m.id]].c == c and lastPoint[m.id]
@@ -50,9 +65,10 @@ function ns.AddPointHere()
 
     local rows, listed = {}, {}
     local function Row(m)
-        if listed[m] or m.builtin then return end
+        if listed[m] then return end
         listed[m] = true
-        tinsert(rows, { text = format("%s  (%s)", m.name, ns.Maps.KIND_NAMES[m.kind] or "Safe"),
+        tinsert(rows, { text = format("%s  (%s)%s", m.name, ns.Maps.KIND_NAMES[m.kind] or "Safe",
+            m.builtin and "  |cff888888built-in: adds to your copy|r" or ""),
             onClick = function() AddTo(m, c, wx, wy) end })
     end
     local last = ns.Maps.Find(lastMapId)
