@@ -1,0 +1,22 @@
+## Interface: 16001
+## Title: PathFinder
+## Notes: Walks you to a destination along navigation maps you draw on the world map, or ones shared by others. Steering in Lua; the keys are pressed by the AHK\PathFinder.ahk script in this folder.
+## Author: Coby
+## Version: 0.4.0
+## SavedVariables: PathFinderDB
+## Category: Custom
+## IconTexture: Interface\Icons\INV_Misc_Map_01
+
+Core.lua
+Graph.lua
+Maps.lua
+Maps\Community.lua
+UI.lua
+MapEditor.lua
+AHKLink.lua
+Navigator.lua
+Objective.lua
+Share.lua
+HUD.lua
+Minimap.lua
+WorldView.lua
