@@ -126,7 +126,7 @@ function ns.ShowSaveDialog(m, zoneName, onSave, onDelete)
     local name = m.name and m.name ~= "" and m.name or zoneName or ""
     summary:SetText(format("|cffffd100Name|r     %s\n|cffffd100Type|r      %s\n|cffffd100Path|r      %s\n|cffffd100Zone|r      %s",
         name ~= "" and name or "|cffff4040no name yet|r", ns.Maps.KIND_NAMES[m.kind] or "Safe",
-        m.linear and "Exact" or "Curved", zoneName or "unknown"))
+        m.curved and "Curved" or "Exact", zoneName or "unknown"))
     saveButton:SetEnabled(name ~= "")
     saveButton:SetScript("OnClick", function()
         save:Hide()

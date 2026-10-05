@@ -36,7 +36,7 @@ local TICK = 0.03               -- seconds between steering updates
 local CURVE_PIECES = 6          -- steering steps around each rounded corner
 local LOOKAHEAD = 7             -- yards: steer at the first step at least this far ahead, so small bends don't make it turn
 local END_RADIUS = 1.5          -- yards: this close to the pin, done
-local EXACT_RADIUS = 1.5        -- yards: this close to a point of a linear map before heading for the next
+local EXACT_RADIUS = 1.5        -- yards: this close to a point of an exact map before heading for the next
 local TURN_DEADBAND = math.rad(4) -- heading error left alone
 local TURN_STEP = math.rad(10)  -- each this much more error is one more level of turn strength (1-3)
 local WALK_CONE = math.rad(50)  -- walk while the error is under this, else turn in place
@@ -155,17 +155,17 @@ local function Travel(navMap, goal, label, goalId)
     if not goalId then tinsert(newTargets, { x = goal.x, y = goal.y }) end
 
     -- Round each corner with a curve rather than turning sharply at the points.
-    -- A linear map skips that: each point is a target to reach exactly, in straight lines.
+    -- An exact map (the default) skips that: each point is a target to reach exactly, in straight lines.
     tinsert(newTargets, 1, { x = px, y = py })
     local curve, marks
-    if navMap.linear then
+    if not navMap.curved then
         curve, marks = newTargets, {}
         for i = 1, #newTargets do marks[i] = i end
     else
         curve, marks = ns.RoundedPath(newTargets, CURVE_PIECES)
     end
     targets = {}
-    for i = 2, #curve do tinsert(targets, { x = curve[i].x, y = curve[i].y, exact = navMap.linear }) end
+    for i = 2, #curve do tinsert(targets, { x = curve[i].x, y = curve[i].y, exact = not navMap.curved }) end
     targets[#targets].final = true
     -- Each navigation point (and the goal) with the steering step nearest it, for the world view marker.
     wipe(markers)
@@ -303,7 +303,7 @@ local function Steer(now)
             if d <= END_RADIUS then Navigator.Stop("arrived") return "none" end
             break
         end
-        -- A point of a linear map must be reached, not just come within LOOKAHEAD of.
+        -- A point of an exact map must be reached, not just come within LOOKAHEAD of.
         if d > (target.exact and EXACT_RADIUS or LOOKAHEAD) then break end
         index, stuckCount, stuckX = index + 1, 0, nil
     end

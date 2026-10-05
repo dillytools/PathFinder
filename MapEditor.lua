@@ -221,7 +221,7 @@ function ns.RedrawMap()
             count = count + 1
             if count == 1 then n1 = n else n2 = n end
         end
-        if count == 2 and pos[n1] and pos[n2] and not editMap.linear then   -- a linear map stays straight
+        if count == 2 and pos[n1] and pos[n2] and editMap.curved then   -- an exact map stays straight
             local here = { x = p[1], y = p[2] }
             local a, b = ns.CornerCuts({ x = pos[n1][1], y = pos[n1][2] }, here, { x = pos[n2][1], y = pos[n2][2] })
             cuts[id] = { [n1] = a, [n2] = b }
@@ -510,7 +510,7 @@ local function RefreshMapPickButton()
         if kind == editMap.kind then b:LockHighlight() else b:UnlockHighlight() end
     end
     for path, b in pairs(pathButtons) do
-        if (path == "linear") == (editMap.linear and true or false) then b:LockHighlight() else b:UnlockHighlight() end
+        if (path == "curved") == (editMap.curved and true or false) then b:LockHighlight() else b:UnlockHighlight() end
     end
     local notes = {}
     if not editSource then
@@ -839,7 +839,7 @@ local function CreateMapFields()
         b:SetPoint("LEFT", previous, "RIGHT", previous == pathLabel and 12 or 4, 0)
         b:SetScript("OnClick", function()
             if not editMap then return end
-            editMap.linear = entry[1] == "linear" or nil
+            editMap.curved = entry[1] == "curved" or nil
             ns.RedrawMap()
         end)
         b:SetScript("OnEnter", function(self)
