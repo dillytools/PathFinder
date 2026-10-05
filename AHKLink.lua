@@ -14,7 +14,9 @@ local _, ns = ...
 local SIGNAL_KEY = "CTRL-ALT-SHIFT-F9"      -- PathFinder.ahk HeartbeatKey must match
 local ALIVE_TIMEOUT = 8                      -- seconds without a report before it counts as not running
 local CHECK_DELAY = 3                        -- seconds after starting a route to check
-local SCRIPT_PATH = "World of Warcraft\\<game version folder>\\Interface\\AddOns\\PathFinder\\AHK\\PathFinder.ahk"
+-- Where PathFinder.ahk is, shown in the popup. Addons can't read disk paths, so it's written here:
+-- this is the default install for the Forever beta; change it if the game is installed elsewhere.
+local SCRIPT_PATH = "C:\\Program Files (x86)\\World of Warcraft\\_classic_beta_\\Interface\\AddOns\\PathFinder\\AHK"
 
 local seen                  -- GetTime() of the last report
 
@@ -40,10 +42,10 @@ ns.RegisterEvent("PLAYER_REGEN_ENABLED", function() if pending then Bind() end e
 
 StaticPopupDialogs["PATHFINDER_START_AHK"] = {
     text = "PathFinder.ahk isn't running, so nothing will press the keys. The game can't start it for you.\n\n"
-        .. "Install AutoHotkey v2, then right-click |cffffd100PathFinder.ahk|r and choose |cffffd100Run script|r. It's in:\n\n%s\n\nLeave it running; it idles between routes.",
+        .. "Install AutoHotkey v2, then right-click |cffffd100PathFinder.ahk|r and choose |cffffd100Run script|r. It's in this folder:\n\n%s\n\nLeave it running; it idles between routes.",
     button1 = "Copy path",
     button2 = OKAY,
-    OnAccept = function() ns.ShowTextBox("PathFinder.ahk location  (Ctrl+C to copy)", SCRIPT_PATH) end,
+    OnAccept = function() ns.ShowTextBox("PathFinder.ahk folder  (Ctrl+C to copy)", SCRIPT_PATH) end,
     timeout = 0,
     whileDead = true,
     hideOnEscape = true,
