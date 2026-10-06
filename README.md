@@ -69,4 +69,4 @@ I plan to make the path finding features as practical and easy to use as can be 
 ## Todo: Editing existing maps
 
 ## Blizzard ToS
-This addon violates the One Key Per Action paradigm as well as numerous other ToS violations and thus using it puts your account at risk of being banned. It may be more or less likely based on the fact that it is mostly driven by Blizzard's own addon tooling, but I can't say for sure. Use it under the assumption that you will be banned eventually for using it and that way you will never be upset. 
+This addon violates numerous ToS provisions and thus using it puts your account at risk of being banned. It may be more or less likely based on the fact that it is mostly driven by Blizzard's own addon tooling. Use it under the assumption that you will be banned for using it and that way you will never be upset. 
