@@ -29,7 +29,8 @@ The **minimap button** has the following options:
 - Go to the nearest town
 - Go to the current quest objective
 - Open map editor for drawing navigation maps for the current zone
-- Whether `PathFinder.ahk` is running (which is required for the addon to work)"
+- Whether `PathFinder.ahk` is running (which is required for the addon to work)
+- In addition to the minimap button, you can use commands like (`/goto town`), (`/goto objective`), (`/goto destination`) and/or create macros for them if you prefer that over commands or the minimap icon. 
 
 ## Nav Map Creation
 Although the addon comes with default provided navigational maps, you can also create your own for your own use-cases and scenarios.
