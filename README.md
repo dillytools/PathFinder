@@ -66,7 +66,7 @@ I plan to make the path finding features as practical and easy to use as can be 
 - Support for methods of travel such as zeppelin, boats, and elevators
 - Enhanced commands for specific game locations (`/goto [class] trainer`), (`/goto [profession] trainer`), (`/goto mailbox`), (`/goto repair`), (`/goto org`), (`/goto orgrimmar`), (`/goto stormwind`)
 
-## Wrote up a whole page yesterday and accidentally closed my browser so I'll do it tomorrow
+## Todo: Editing existing maps
 
 ## Blizzard ToS
 This addon violates the One Key Per Action paradigm as well as numerous other ToS violations and thus using it puts your account at risk of being banned. It may be more or less likely based on the fact that it is mostly driven by Blizzard's own addon tooling, but I can't say for sure. 
